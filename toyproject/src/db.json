@@ -1,0 +1,14 @@
+{
+  "products": [
+    {
+      "name": "Yujin",
+      "url": "src/assets/유디닝.jpeg",
+      "introduce": "안녕하세요 저는 안유진입니다"
+    },
+    {
+      "name": "Richi",
+      "url": "src/assets/안리치거울보기.jpeg",
+      "introduce": "세상을 지배할꺼다"
+    }
+  ]
+}
