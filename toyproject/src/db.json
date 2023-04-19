@@ -2,15 +2,38 @@
   "info": [
     {
       "id": 0,
-      "name": "Yujin",
-      "url": "./assets/user1.jpeg",
-      "introduce": "안녕하세요 저는 안유진입니다"
+      "name": "유디닝",
+      "introduce": "두개골 좀 돌려줄까?"
     },
     {
       "id": 1,
       "name": "Richi",
-      "url": "./assets/user2.jpeg",
       "introduce": "세상을 지배할꺼다"
+    },
+    {
+      "id": 2,
+      "name": "뽀",
+      "introduce": "세상에서 내가 제일 귀여워"
+    },
+    {
+      "id": 4,
+      "name": "하디맘",
+      "introduce": "모든 두리안들아 나에게 오렴"
+    },
+    {
+      "id": 5,
+      "name": "예쏠",
+      "introduce": "원주의 불주먹 한번 맛볼래?"
+    },
+    {
+      "id": 6,
+      "name": "보경",
+      "introduce": "원조 쿠키는 나다."
+    },
+    {
+      "id": 7,
+      "name": "김종엽",
+      "introduce": "나랑 칭 구 할 ㄹ ㅐ ...? "
     }
   ]
 }
