@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import db from '../db.json';
 import styled from 'styled-components';
+import FormInput from './FormInput';
 
 export default function IntroduceCard() {
   const [infoUserIndex, setInfoUserIndex] = useState(0);
   const [fileImage, setFileImage] = useState('');
+  const [showFormInput, setShowFormInput] = useState(false);
 
   const DB = db.info[infoUserIndex];
   const fileInput = React.createRef(null);
@@ -13,11 +15,35 @@ export default function IntroduceCard() {
     fileInput.current.click();
   };
   const saveFileImage = (e) => {
-    setFileImage(URL.createObjectURL(e.target.files[0]));
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      const base64Image = reader.result;
+      setFileImage(base64Image);
+      addImageToJSON(base64Image);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const addImageToJSON = (base64Image) => {
+    db.info[infoUserIndex].profileImage = base64Image;
   };
 
   const handleChange = () => {
-    setInfoUserIndex((index) => index + 1);
+    setInfoUserIndex((index) => {
+      //인덱스 증가
+      const incrementData = index + 1;
+
+      if (incrementData < db.info.length && Object.entries(db.info[incrementData]).length !== 0) {
+        return incrementData;
+      } else {
+        console.log('no data');
+        setShowFormInput(true);
+        return index;
+      }
+    });
   };
   return (
     <UserCard>
@@ -35,6 +61,7 @@ export default function IntroduceCard() {
       />
       <div>{DB.introduce}</div>
       <NextButton onClick={handleChange}>눌러유</NextButton>
+      {showFormInput && <FormInput />}
     </UserCard>
   );
 }
