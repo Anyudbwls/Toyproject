@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import db from '../db.json';
 import styled from 'styled-components';
 import FormInput from './FormInput';
-
+import { hasFormSubmit } from '@testing-library/user-event/dist/utils';
+import { NextButton } from '../style/button';
+import { ProfileImg } from '../style/img';
 export default function IntroduceCard() {
   const [infoUserIndex, setInfoUserIndex] = useState(0);
   const [fileImage, setFileImage] = useState('');
@@ -39,7 +41,6 @@ export default function IntroduceCard() {
       if (incrementData < db.info.length && Object.entries(db.info[incrementData]).length !== 0) {
         return incrementData;
       } else {
-        console.log('no data');
         setShowFormInput(true);
         return index;
       }
@@ -48,10 +49,9 @@ export default function IntroduceCard() {
   return (
     <UserCard>
       <h1>Introduce Card</h1>
-
       <div>{DB.name}</div>
       <button onClick={handleIMGButtonClick}>프로필 업로드</button>
-      {fileImage && <Profile src={fileImage} alt="프로필사진" />}
+      {fileImage && <ProfileImg src={fileImage} alt="프로필사진" />}
       <input
         type="file"
         ref={fileInput}
@@ -61,7 +61,7 @@ export default function IntroduceCard() {
       />
       <div>{DB.introduce}</div>
       <NextButton onClick={handleChange}>눌러유</NextButton>
-      {showFormInput && <FormInput />}
+      {showFormInput && <FormInput onSubmit={hasFormSubmit} />}
     </UserCard>
   );
 }
@@ -73,17 +73,6 @@ const UserCard = styled.section`
   border-radius: 12px;
   background-color: #f8f8f8;
   width: 280px;
-  height: 500px;
-  padding: 10px 50px;
-`;
-const Profile = styled.img`
-  margin-top: 10px;
-  border: 1px solid #d1d1d1;
-  border-radius: 100%;
-  width: 200px;
-`;
-
-const NextButton = styled.button`
-  border: none;
-  width: 250px;
+  height: fit-content;
+  padding: 10px 50px 50px 50px;
 `;
