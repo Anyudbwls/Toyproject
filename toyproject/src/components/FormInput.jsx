@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { InputImg } from '../style/img';
 import { InputButton } from '../style/button';
-const FormInput = ({ onSubmit }) => {
+
+const FormInput = ({ onSubmit, defaultProfile }) => {
   const [name, setName] = useState('');
   const [introduction, setIntroduction] = useState('');
-  const [fileImage, setFileImage] = useState('');
+  const [fileImage, setFileImage] = useState(defaultProfile);
   const fileInput = React.createRef(null);
 
   const handleIMGButtonClick = (e) => {
@@ -26,20 +27,22 @@ const FormInput = ({ onSubmit }) => {
 
   return (
     <FormBox>
-      <input
+      <InputImg src={fileImage} alt="profile" onClick={handleIMGButtonClick} />
+
+      <NameInput
+        id="name"
         type="text"
         placeholder="Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <textarea
+      <InputBox
+        id="introduce"
         placeholder="Introduction"
         value={introduction}
         onChange={(e) => setIntroduction(e.target.value)}
       />
-      <InputButton onClick={handleIMGButtonClick}>프로필 업로드</InputButton>
-      {fileImage && <InputImg src={fileImage} alt="profile" />}
-      <input
+      <InputBox
         type="file"
         ref={fileInput}
         accept="image/*"
@@ -56,4 +59,18 @@ export default FormInput;
 const FormBox = styled.section`
   border: 1px solid #212121;
   padding: 10px;
+  display: flex;
+`;
+
+const InputBox = styled.input`
+  position:relative;
+  width: 100px
+  height: fit-content;
+  padding: 10px;
+  border: 1px solid #ececec;
+  border-radius: 5px;
+`;
+const NameInput = styled(InputBox)`
+  width: 50px;
+  height: fit-content;
 `;
