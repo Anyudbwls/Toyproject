@@ -77,7 +77,7 @@ export default function IntroduceCard() {
     <UserCard>
       <h1>Introduce Card</h1>
 
-      <ProfileImg src={defaultProfile || formData.fileImage} alt="프로필사진" />
+      <ProfileImg src={formData.fileImage || defaultProfile} alt="프로필사진" />
       <input
         type="file"
         ref={fileInput}
