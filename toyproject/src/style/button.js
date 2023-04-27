@@ -11,4 +11,5 @@ export const InputButton = styled.button`
   margin: 2px;
   color: white;
   background-color: aqua;
+  cursor: pointer;
 `;

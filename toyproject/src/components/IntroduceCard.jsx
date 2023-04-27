@@ -5,37 +5,53 @@ import FormInput from './FormInput';
 import { hasFormSubmit } from '@testing-library/user-event/dist/utils';
 import { NextButton } from '../style/button';
 import { ProfileImg } from '../style/img';
+import defaultProfile from '../assets/default_profile.png';
+import { InputButton } from '../style/button';
+
 export default function IntroduceCard() {
   const [infoUserIndex, setInfoUserIndex] = useState(0);
   const [fileImage, setFileImage] = useState('');
   const [showFormInput, setShowFormInput] = useState(false);
+  const [name, setName] = useState('');
+  const [introduction, setIntroduction] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    introduction: '',
+    fileImage: '',
+  });
 
   const DB = db.info[infoUserIndex];
   const fileInput = React.createRef(null);
 
-  const handleIMGButtonClick = (e) => {
-    fileInput.current.click();
-  };
   const saveFileImage = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
 
     reader.onloadend = () => {
-      const base64Image = reader.result;
-      setFileImage(base64Image);
-      addImageToJSON(base64Image);
+      const baseImage = reader.result;
+      setFileImage(baseImage);
+      onFileImageChange(baseImage);
     };
 
     reader.readAsDataURL(file);
   };
 
-  const addImageToJSON = (base64Image) => {
-    db.info[infoUserIndex].profileImage = base64Image;
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleIntroductionChange = (e) => {
+    setIntroduction(e.target.value);
+  };
+
+  const onFileImageChange = (baseImage) => {
+    setFileImage(baseImage);
+
+    db.info[infoUserIndex].profileImage = baseImage;
   };
 
   const handleChange = () => {
     setInfoUserIndex((index) => {
-      //인덱스 증가
       const incrementData = index + 1;
 
       if (incrementData < db.info.length && Object.entries(db.info[incrementData]).length !== 0) {
@@ -46,12 +62,22 @@ export default function IntroduceCard() {
       }
     });
   };
+
+  const handleSubmit = () => {
+    setFormData({
+      name,
+      introduction,
+      fileImage,
+    });
+    console.log('Submitted form data:', formData);
+    db.info.push(formData);
+  };
+
   return (
     <UserCard>
       <h1>Introduce Card</h1>
-      <div>{DB.name}</div>
-      <button onClick={handleIMGButtonClick}>프로필 업로드</button>
-      {fileImage && <ProfileImg src={fileImage} alt="프로필사진" />}
+
+      <ProfileImg src={defaultProfile || formData.fileImage} alt="프로필사진" />
       <input
         type="file"
         ref={fileInput}
@@ -59,9 +85,19 @@ export default function IntroduceCard() {
         onChange={saveFileImage}
         style={{ display: 'none' }}
       />
-      <div>{DB.introduce}</div>
+      <div>{DB.name || formData.name}</div>
+      <div>{DB.introduce || formData.introduction}</div>
       <NextButton onClick={handleChange}>눌러유</NextButton>
-      {showFormInput && <FormInput onSubmit={hasFormSubmit} />}
+      {showFormInput && (
+        <FormInput
+          onSubmit={handleSubmit}
+          defaultProfile={defaultProfile}
+          onNameChange={handleNameChange}
+          onIntroductionChange={handleIntroductionChange}
+          onFileImageChange={onFileImageChange}
+        />
+      )}
+      <InputButton onClick={handleSubmit}>Save</InputButton>
     </UserCard>
   );
 }
